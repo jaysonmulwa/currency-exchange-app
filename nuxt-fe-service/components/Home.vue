@@ -3,7 +3,7 @@
   <section class="text-gray-600 body-font">
     <div class="container px-5 pt-12 mx-auto">
       <div class="flex flex-wrap w-full flex-row justify-between">
-        <span>
+        <span class="flex flex-row">
           <NuxtLink to="/profile">
           <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
@@ -11,6 +11,7 @@
             </svg>
           </div>
           </NuxtLink>
+          <!--<p class="pl-2 pt-2 leading-relaxed text-base">Welcome, Jayson.</p>-->
         </span>
         <span>
           <NuxtLink to="/login">
@@ -66,7 +67,7 @@
               </svg>
             </div>
             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Transact Cash</h2>
-            <p class="leading-relaxed text-base w-full">Credit and Debit your accounts. We are currency flexible so we got you covered!</p>
+            <p class="leading-relaxed text-base w-full"><b>Credit and Debit</b> your accounts. We are currency flexible so we got you covered!</p>
           </div>
         </NuxtLink>
       </div>
