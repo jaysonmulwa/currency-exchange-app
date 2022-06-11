@@ -117,6 +117,6 @@
 
 <script>
 export default {
-  name: 'NuxtTutorial',
+  name: 'Signup',
 }
 </script>
