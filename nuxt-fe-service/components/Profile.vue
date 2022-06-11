@@ -37,18 +37,22 @@
                   <span class="text-gray-500">Username</span>
                   <span class="ml-auto text-gray-900">jj19990001</span>
                 </div>
+
                 <div class="flex border-b border-gray-200 py-2">
                   <span class="text-gray-500">Default Currency</span>
                   <span class="ml-auto text-gray-900">USD</span>
                 </div>
+
                 <div class="flex border-b border-gray-200 py-2">
                   <span class="text-gray-500">Email address</span>
                   <span class="ml-auto text-gray-900">jayson.mulwa@gmail.com</span>
                 </div>
+
                 <div class="flex border-b border-gray-200 py-2">
                   <span class="text-gray-500">First name</span>
                   <span class="ml-auto text-gray-900">Jayson</span>
                 </div>
+                
                 <div class="flex border-b border-gray-200 py-2">
                   <span class="text-gray-500">Last name</span>
                   <span class="ml-auto text-gray-900">Mulwa</span>
