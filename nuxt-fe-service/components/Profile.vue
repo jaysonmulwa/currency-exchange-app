@@ -15,6 +15,50 @@
 
       </div>
     </div>
+    <div class="container px-5 pt-12 pb-24 mx-auto">
+      <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 tracking">Profile.</h1>
+      </div>
+      <div class="flex flex-wrap justify-center -m-4">
+        <div class="w-full lg:w-3/5 p-4">
+            <div class="border border-gray-200 p-6 rounded-lg flex flex-wrap justify-center -m-4">
+              <span class="w-full xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full xs:w-full p-4">
+                <div class="flex items-center justify-center h-full">
+                  <div class="w-48 h-48 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-24 h-24" viewBox="0 0 24 24">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </div>
+                </div>
+              </span>
+              <span class="w-full xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full xs:w-full p-4">
+                <div class="flex border-b border-gray-200 py-2">
+                  <span class="text-gray-500">Username</span>
+                  <span class="ml-auto text-gray-900">jj19990001</span>
+                </div>
+                <div class="flex border-b border-gray-200 py-2">
+                  <span class="text-gray-500">Default Currency</span>
+                  <span class="ml-auto text-gray-900">USD</span>
+                </div>
+                <div class="flex border-b border-gray-200 py-2">
+                  <span class="text-gray-500">Email address</span>
+                  <span class="ml-auto text-gray-900">jayson.mulwa@gmail.com</span>
+                </div>
+                <div class="flex border-b border-gray-200 py-2">
+                  <span class="text-gray-500">First name</span>
+                  <span class="ml-auto text-gray-900">Jayson</span>
+                </div>
+                <div class="flex border-b border-gray-200 py-2">
+                  <span class="text-gray-500">Last name</span>
+                  <span class="ml-auto text-gray-900">Mulwa</span>
+                </div>
+                
+              </span>
+            </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
