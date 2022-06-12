@@ -1,0 +1,44 @@
+services:
+  db:
+    image: mysql:5.7
+    container_name: currency-mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "currency"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "admin"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - currency_converter
+  api:
+    build: ./golang-be-service
+    container_name: currency-golang-api
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=currency
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - "3001:3001"
+    networks:
+      - currency_converter
+    depends_on:
+      - db
+  app:
+    build: ./nuxt-fe-service
+    container_name: currency-nuxt-app
+    restart: always
+    ports:
+      - "3000:3000"
+    command: "npm run start"
+networks:
+  currency_converter:
+    driver: bridge
