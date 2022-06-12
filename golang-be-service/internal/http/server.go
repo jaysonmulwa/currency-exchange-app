@@ -25,7 +25,7 @@ func SetupRoutes() {
 
 
 
-	if err := app.Listen(":3000"); err != nil {
+	if err := app.Listen(":3001"); err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
