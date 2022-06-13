@@ -58,12 +58,35 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/toast',
   ],
+  toast: {
+    position: 'top-center',
+    duration: 3000,
+    keepOnHover: true,
+    close: true,
+    animate: 'fade',
+    showClose: true,
+    closeButton: true,
+    progressBar: true,
+
+
+    register: [ // Register custom toasts
+      {
+        name: 'my-error',
+        message: 'Oops...Something went wrong',
+        options: {
+          type: 'error',
+          duration: 3000,
+          closeable: true,
+        }
+      }
+    ]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    
   },
   
 
