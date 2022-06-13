@@ -14,16 +14,14 @@ func SetupRoutes() {
 
 	app := fiber.New()
 
-	app.Post("/login", auth.Login)
-	app.Post("/register", auth.Register)
-	app.Get("/profile", profile.GetProfile)
-	app.Put("/profile", profile.UpdateProfile)
+	app.Post("/api/v1/login", auth.Login)
+	app.Post("/api/v1/register", auth.Register)
+	app.Get("/api/v1/profile", profile.GetProfile)
+	app.Put("/api/v1/profile", profile.UpdateProfile)
 
-	app.Get("/balance", balance.GetBalance)
-	app.Post("/transfer", transfer.Transfer)
-	app.Post("/transact", transact.Transact)
-
-
+	app.Get("/api/v1/balance", balance.GetBalance)
+	app.Post("/api/v1/transfer", transfer.Transfer)
+	app.Post("/api/v1/transact", transact.Transact)
 
 	if err := app.Listen(":3001"); err != nil {
 		fmt.Println(err)

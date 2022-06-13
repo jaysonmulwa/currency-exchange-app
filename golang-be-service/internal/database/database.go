@@ -8,6 +8,14 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+type DBInstance struct {
+	DB *gorm.DB
+}
+
+var (
+	database DBInstance
+)
+
 // NewDatabase - returns a pointer to a new database connection
 func NewDatabase() (*gorm.DB, error) {
 	fmt.Println("Connecting to database...")
@@ -29,5 +37,13 @@ func NewDatabase() (*gorm.DB, error) {
 		return db, err
 	}
 
+	database = DBInstance{
+		DB: db,
+	}
+
 	return db, nil
+}
+
+func GetConnection() *DBInstance {
+	return &database
 }
