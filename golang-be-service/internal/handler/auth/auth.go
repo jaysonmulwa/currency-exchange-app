@@ -62,21 +62,23 @@ func Register (c *fiber.Ctx) error {
 
 }
 
-func getUserByCredentials(username string, password string) model.User, error {
+func getUserByCredentials(username string, password string) (*model.User, error) {
 
-	user := new(model.User)
+	var user model.User
 	_db := db.GetConnection().DB
 	if result := _db.Where("username = ?", username).Where("password = ?", password).First(&user); result.Error != nil {
-		return nil, result.Error
+		return &user, result.Error
 	}
-	return user, nil
+	return &user, nil
 }
 
-func createUser(username string, email string, firstname string, lastname string, password string, default_currency string) model.User, error {
-	user := new(model.User)
+func createUser(username string, email string, firstname string, lastname string, password string, default_currency string) (*model.User, error) {
+
+	var user model.User
 	_db := db.GetConnection().DB
 	if result := _db.Create(&user); result.Error != nil {
-		return nil, result.Error
+		return &user, result.Error
 	}
-	return user, nil
+	return &user, nil
+	
 }
