@@ -1,6 +1,9 @@
-package entity
+package model
+
+import "github.com/jinzhu/gorm"
 
 type Transaction struct {
+	gorm.Model
 	transaction_id   int    `json:"transaction_id"`
 	entry_id         int    `json:"entry_id"`
 	transaction_type string `json:"transaction_type"`
