@@ -7,6 +7,7 @@ import (
 )
 
 var API_KEY = "GbMiAb1Z8LCO5ETYixBrNvBSJhFXB57Y"
+var BASE_URL = "https://api.apilayer.com/fixer/convert"
 
 type ConversionService interface {
 	Convert(amount int, from string, to string) (float64, error)
@@ -18,7 +19,7 @@ type Converter struct {
 
 func (c *Converter) Convert(amount int, from string, to string) (float64, error) {
 	client := resty.New()
-	resp, err := client.R().SetHeader("apikey", API_KEY).Get("https://api.apilayer.com/fixer/convert?from=" + from + "&to=" + to + "&amount="+ strconv.Itoa(amount))
+	resp, err := client.R().SetHeader("apikey", API_KEY).Get(BASE_URL + "?from=" + from + "&to=" + to + "&amount="+ strconv.Itoa(amount))
 	if err != nil {
 		c.err = err
 		return -1, err
