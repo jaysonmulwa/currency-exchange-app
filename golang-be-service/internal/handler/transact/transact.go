@@ -26,8 +26,8 @@ func Transact (c *fiber.Ctx) error {
 	}
 
 	helper := helper.Helper{}
-	user_id, err := helper.GetIDFromUsername(input.Username)
-	fromCurrency, err := helper.GetDefaultCurrency(user_id)
+	user_id, _ := helper.GetIDFromUsername(input.Username)
+	fromCurrency, _ := helper.GetDefaultCurrency(user_id)
 	amount := input.Amount
 	entry := input.Entry
 	time_now := time.Now().Format("2006-01-02 15:04:05")
@@ -36,10 +36,10 @@ func Transact (c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
 	}
 
-	transaction_id := rand.Seed(time.Now().UnixNano())
-	entry_id := rand.Seed(time.Now().UnixNano())
+	transaction_id := rand.Intn(1000000)
+	entry_id := rand.Intn(1000000)
 	newConversion := converter.Converter{}
-	in_usd, err := newConversion.Convert(amount, fromCurrency, "USD") 
+	in_usd, _ := newConversion.Convert(amount, fromCurrency, "USD") 
 
 	//Record Transaction DR
 	Entry := model.Transaction{
@@ -54,7 +54,7 @@ func Transact (c *fiber.Ctx) error {
 		User_id          : user_id,
 		Initiated_by     : user_id,
 	}
-	helper.RecordTransaction(Entry)
+	_ = helper.RecordTransaction(Entry)
 	
 
 	//Adjust balance
@@ -68,7 +68,7 @@ func Transact (c *fiber.Ctx) error {
 		newBalanceAmount = balanceAmount + amount
 	}
 	newSenderBalance := model.Balance{
-		Balance_id:   rand.Seed(time.Now().UnixNano()),
+		Balance_id:   rand.Intn(1000000),
 		User_id:      user_id,
 		Amount:       newBalanceAmount,
 		Last_updated: time_now,

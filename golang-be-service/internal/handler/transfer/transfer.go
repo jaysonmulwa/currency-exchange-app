@@ -31,8 +31,8 @@ func Transfer (c *fiber.Ctx) error {
 	_to, _ := helper.GetIDFromUsername(input.Username)
 	_amount := input.Amount
 
-	fromCurrency, err := helper.GetDefaultCurrency(_from)
-	toCurrency, err := helper.GetDefaultCurrency(_to)
+	fromCurrency, _ := helper.GetDefaultCurrency(_from)
+	toCurrency, _ := helper.GetDefaultCurrency(_to)
 
 	if fromCurrency == "" || toCurrency == "" {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Default Currency of either parties is missing. Please update", "data": nil})
@@ -56,38 +56,37 @@ func transferCash(from int, fromCurrency string, to int, toCurrency string, amou
 	helper := helper.Helper{}
 	if fromCurrency != toCurrency {
 		conversion := converter.Converter{}
-		new_amount, err = conversion.Convert(amount, fromCurrency, toCurrency)
-		err = err
+		new_amount, _ = conversion.Convert(amount, fromCurrency, toCurrency)
 	}
 
 
 	//Adjust Balance of Sender
-	balanceModel, err := balance.FetchBalance(from)
+	balanceModel, _ := balance.FetchBalance(from)
 	balanceAmount := balanceModel.Amount
 	newBalanceAmount := balanceAmount - new_amount
 	newSenderBalance := model.Balance{
-		Balance_id:   rand.Seed(time.Now().UnixNano()),
+		Balance_id:   rand.Intn(1000000),
 		User_id:      from,
 		Amount:       newBalanceAmount,
 		Last_updated: time_now,
 	}
-	helper.AdjustBalance(newSenderBalance, from)
+	_ = helper.AdjustBalance(newSenderBalance, from)
 
 
 	//Adjust Balance of Receiver
-	balanceModel_2, err := balance.FetchBalance(to)
+	balanceModel_2, _ := balance.FetchBalance(to)
 	balanceAmount_2 := balanceModel_2.Amount
 	newBalanceAmount_2 := balanceAmount_2 + new_amount
 	newReceiverBalance := model.Balance{
-		Balance_id:   rand.Seed(time.Now().UnixNano()),
+		Balance_id:   rand.Intn(1000000),
 		User_id:      from,
 		Amount:       newBalanceAmount_2,
 		Last_updated: time_now,
 	}
-	helper.AdjustBalance(newReceiverBalance, to)
+	_ = helper.AdjustBalance(newReceiverBalance, to)
 
-	transaction_id := rand.Seed(time.Now().UnixNano())
-	entry_id := rand.Seed(time.Now().UnixNano())
+	transaction_id := rand.Intn(1000000)
+	entry_id := rand.Intn(1000000)
 	newConversion := converter.Converter{}
 	in_usd, err := newConversion.Convert(amount, fromCurrency, "USD") 
 	
@@ -104,10 +103,12 @@ func transferCash(from int, fromCurrency string, to int, toCurrency string, amou
 		User_id          : from,
 		Initiated_by     : from,
 	}
-	helper.RecordTransaction(DR)
+	_ = helper.RecordTransaction(DR)
+
+
 
 	//Record Transaction CR
-	transaction_id = rand.Seed(time.Now().UnixNano())
+	transaction_id = rand.Intn(1000000)
 	CR := model.Transaction{
 		Transaction_id   : transaction_id,
 		Entry_id         : entry_id,
@@ -120,8 +121,8 @@ func transferCash(from int, fromCurrency string, to int, toCurrency string, amou
 		User_id          : to,
 		Initiated_by     : to,
 	}
-	helper.RecordTransaction(CR)
+	_ = helper.RecordTransaction(CR)
 	
-	return true, nil
+	return true, err
 }
 
