@@ -1,6 +1,8 @@
 package balance
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	db "github.com/jaysonmulwa/golang-be-service/internal/database"
 	"github.com/jaysonmulwa/golang-be-service/internal/model"
@@ -8,8 +10,9 @@ import (
 
 func GetBalance (c *fiber.Ctx) error {
 	user_id := c.Params("user_id")
+	i_user_id , _ := strconv.Atoi(user_id)
 
-	balance, err := fetchBalance(user_id)
+	balance, err := FetchBalance(i_user_id)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Error fetching balance", "data": nil})
@@ -17,7 +20,7 @@ func GetBalance (c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Balance fetched", "data": balance})
 }
 
-func fetchBalance(user_id string) (*model.Balance, error) {
+func FetchBalance(user_id int) (*model.Balance, error) {
 	
 	var balance model.Balance
 	_db := db.GetConnection().DB
@@ -25,5 +28,4 @@ func fetchBalance(user_id string) (*model.Balance, error) {
 		return &balance, result.Error
 	}
 	return &balance, nil
-	
 }
