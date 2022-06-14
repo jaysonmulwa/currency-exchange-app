@@ -1,10 +1,22 @@
 package auth
 
 import (
+	"math/rand"
+
 	"github.com/gofiber/fiber/v2"
 	db "github.com/jaysonmulwa/golang-be-service/internal/database"
-	"github.com/jaysonmulwa/golang-be-service/internal/model"
 )
+
+type User struct {
+	User_id          int    `json:"user_id"`
+	Username         string `json:"username"`
+	Email            string `json:"email"`
+	Firstname        string `json:"firstname"`
+	Lastname         string `json:"lastname"`
+	Password         string `json:"password"`
+	Profile_pic      string `json:"profile_pic"`
+	Default_currency string `json:"default_currency"`
+}
 
 func Login (c *fiber.Ctx) error {
 
@@ -15,7 +27,7 @@ func Login (c *fiber.Ctx) error {
 
 	var input LoginInput
 
-	if err := c.BodyParser(input); err != nil {
+	if err := c.BodyParser(&input); err != nil {
 		return err
 	}
 
@@ -41,12 +53,13 @@ func Register (c *fiber.Ctx) error {
 		Default_currency string `json:"default_currency"`
 	}
 
-	var input RegisterInput
+	input := RegisterInput{} 
 
-	if err := c.BodyParser(input); err != nil {
+	if err := c.BodyParser(&input); err != nil {
 		return err
 	}
 
+	_user_id := rand.Intn(100000)
 	_username := input.Username
 	_email := input.Email
 	_firstname := input.Firstname
@@ -54,7 +67,7 @@ func Register (c *fiber.Ctx) error {
 	_password := input.Password
 	_default_currency := input.Default_currency
 
-	user, err := createUser(_username, _email, _firstname, _lastname, _password, _default_currency)
+	user, err := createUser(_user_id, _username, _email, _firstname, _lastname, _password, _default_currency)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Error creating user", "data": nil})
 	}
@@ -62,23 +75,31 @@ func Register (c *fiber.Ctx) error {
 
 }
 
-func getUserByCredentials(username string, password string) (*model.User, error) {
+func getUserByCredentials(username string, password string) (User, error) {
 
-	var user model.User
+	user := User{}
 	_db := db.GetConnection().DB
 	if result := _db.Where("username = ?", username).Where("password = ?", password).First(&user); result.Error != nil {
-		return &user, result.Error
+		return user, result.Error
 	}
-	return &user, nil
+	return user, nil
 }
 
-func createUser(username string, email string, firstname string, lastname string, password string, default_currency string) (*model.User, error) {
+func createUser(userid int, username string, email string, firstname string, lastname string, password string, default_currency string) (User, error) {
 
-	var user model.User
+	user := User{}
+	user.User_id = userid
+	user.Username = username
+	user.Email = email
+	user.Firstname = firstname
+	user.Lastname = lastname
+	user.Password = password
+	user.Default_currency = default_currency
+
 	_db := db.GetConnection().DB
 	if result := _db.Create(&user); result.Error != nil {
-		return &user, result.Error
+		return user, result.Error
 	}
-	return &user, nil
+	return user, nil
 	
 }

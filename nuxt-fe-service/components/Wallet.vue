@@ -129,30 +129,33 @@ export default {
   name: 'Wallet',
   data() {
     return {
+      balance: {},
+      transactions: {},
       //
     }
   },
-  async asyncData() {
+  async mounted () {
     try {
       const params = {
-        withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
-      const BASE_URL = 'http://localhost:3000'
-      const userId = localStorage.getItem('userId')
+      const BASE_URL = 'http://localhost:3001'
+      const userId = localStorage.getItem('user_id')
       const [balance, transactions] = await Promise.all([
         axios.create(params).get(`${BASE_URL}/api/v1/balance/${userId}`),
         axios.create(params).get(`${BASE_URL}/api/v1/transactions/${userId}`),
       ])
 
-      return {
-        balance: balance?.data,
-        transactions: transactions?.data,
-      }
+        this.balance =  balance?.data;
+        this.transactions = transactions?.data;
+      
     } catch (error) {
       console.log(error)
       this.$toast.show('Error fetching data')

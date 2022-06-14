@@ -21,14 +21,12 @@ func NewDatabase() (*gorm.DB, error) {
 	fmt.Println("Connecting to database...")
 	dbUsername := os.Getenv("MYSQL_USER")
 	dbPassword := os.Getenv("MYSQL_PASSWORD")
-	dbHost := os.Getenv("MYSQL_HOST")
 	dbName := os.Getenv("MYSQL_DATABASE")
-	dbPort := os.Getenv("MYSQL_PORT")
+	tcpString := os.Getenv("MYSQL_DB_CONTAINER")
 
-	connectionString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=require", dbHost, dbPort, dbUsername, dbName, dbPassword)
-	fmt.Println(connectionString)
-
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUsername, dbPassword, tcpString, dbName)
 	db, err := gorm.Open("mysql", connectionString)
+
 	if err != nil {
 		return db, err
 	}

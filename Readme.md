@@ -8,4 +8,14 @@
 docker-compose up -d
 ```
 
-- This starts the server (port 3001) and client (port 3000) application simultaneoulsy.
+- This starts the server (port 3001), client (port 3000) and database(port 3306) application simultaneoulsy.
+
+- If the Golang app throws an error, restart the MySQL container and Golang app container respectively.
+
+Some of the pages in the Nuxt client side application are:
+/login
+/signup
+/transact
+/transfer
+/profile
+/wallet

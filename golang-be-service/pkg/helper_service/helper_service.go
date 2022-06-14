@@ -11,12 +11,23 @@ type HelperService interface {
 	RecordTransaction(transaction model.Transaction) (error)
 }
 
+type User struct {
+	User_id          int    `json:"user_id"`
+	Username         string `json:"username"`
+	Email            string `json:"email"`
+	Firstname        string `json:"firstname"`
+	Lastname         string `json:"lastname"`
+	Password         string `json:"password"`
+	Profile_pic      string `json:"profile_pic"`
+	Default_currency string `json:"default_currency"`
+}
+
 type Helper struct {
 	err error
 }
 
 func (h *Helper)GetIDFromUsername(username string) (int, error) {
-	var user model.User
+	user := User{}
 	_db := db.GetConnection().DB
 	if result := _db.Where("username = ?", username).First(&user); result.Error != nil {
 		h.err = result.Error
@@ -42,7 +53,7 @@ func (h *Helper)RecordTransaction(transaction model.Transaction) (error) {
 }
 
 func (h *Helper)GetDefaultCurrency(user_id int) (string, error) {
-	var user model.User
+	user := User{}
 	_db := db.GetConnection().DB
 	if result := _db.Where("user_id = ?", user_id).First(&user); result.Error != nil {
 		return "", result.Error

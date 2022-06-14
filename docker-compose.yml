@@ -3,7 +3,7 @@ services:
     image: mysql:5.7
     container_name: currency-mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "admin"
       MYSQL_DATABASE: "currency"
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "admin"
@@ -18,14 +18,13 @@ services:
     build: ./golang-be-service
     container_name: currency-golang-api
     environment:
-      - MYSQL_HOST=db
+      - MYSQL_HOST=localhost
       - MYSQL_PORT=3306
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=admin
       - MYSQL_DATABASE=currency
-      - MYSQL_ROOT_PASSWORD=root
-    volumes:
-      - ./data/mysql:/var/lib/mysql
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DB_CONTAINER=currency-mysql-db
     ports:
       - "3001:3001"
     networks:

@@ -141,6 +141,7 @@ export default {
       default_currency: '',
       editable: false,
       selected_currency: '',
+      profile: {},
     }
   },
   methods: {
@@ -162,10 +163,12 @@ export default {
       }
 
       const params = {
-        withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
@@ -173,7 +176,7 @@ export default {
         default_currency: this.selected_currency,
       }
 
-      const BASE_URL = 'http://localhost:3000'
+      const BASE_URL = 'http://localhost:3001'
       const userId = localStorage.getItem('userId')
 
       axios
@@ -195,31 +198,34 @@ export default {
     },
   },
 
-  async asyncData() {
+  async mounted() {
     try {
       const params = {
         withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
-      const BASE_URL = 'http://localhost:3000'
+      const BASE_URL = 'http://localhost:3001'
 
-      const userId = localStorage.getItem('userId')
+      const userId = localStorage.getItem('user_id')
 
       const profile = await Promise.all([
         axios.create(params).get(`${BASE_URL}/api/v1/profile/${userId}`),
       ])
-
-      return {
-        profile: profile?.data,
-      }
+      
+      this.profile = profile?.data;
+      
     } catch (error) {
       console.log(error)
       this.$toast.show('Error fetching data')
     }
   },
+
 }
 </script>

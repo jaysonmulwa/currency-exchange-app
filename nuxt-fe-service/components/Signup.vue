@@ -138,10 +138,12 @@ export default {
   methods: {
     signup() {
       const params = {
-        withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
@@ -151,6 +153,7 @@ export default {
         password: this.password,
         firstname: this.firstname,
         lastname: this.lastname,
+        default_currency: "USD",
       }
 
       const BASE_URL = 'http://localhost:3001'
@@ -159,8 +162,9 @@ export default {
         .create(params)
         .post(`${BASE_URL}/api/v1/signup`, payload)
         .then((response) => {
-          console.log(response)
           this.$toast.show('Successfully signed up!')
+          console.log(response.data)
+          localStorage.setItem('user_id', response.data.data.user_id)
           setInterval(() => {
             this.$router.push('/home')
           }, 1000)

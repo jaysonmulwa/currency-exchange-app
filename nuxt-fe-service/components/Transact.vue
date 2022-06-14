@@ -99,19 +99,22 @@ export default {
   methods: {
     transact() {
       const params = {
-        withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
       const payload = {
-        type: this.type,
+        user_id: localStorage.getItem('user_id'),
+        entry: this.type,
         amount: this.amount,
       }
 
-      const BASE_URL = 'http://localhost:3000'
+      const BASE_URL = 'http://localhost:3001'
 
       axios
         .create(params)
@@ -120,8 +123,8 @@ export default {
           console.log(response)
           if (response.data.success) {
             this.type == 'debit'
-              ? this.$toast.show('Tou have successfully debited your account.')
-              : this.$toast.show('Tou have successfully credited your account.')
+              ? this.$toast.show('You have successfully debited your account.')
+              : this.$toast.show('You have successfully credited your account.')
           }
         })
         .catch((error) => {

@@ -1,12 +1,13 @@
 package database
 
 import (
-	model "github.com/jaysonmulwa/golang-be-service/internal/model"
+	"github.com/jaysonmulwa/golang-be-service/internal/model"
 	"github.com/jinzhu/gorm"
 )
 
 //Migrate DB - migrates the database and create our comment table
 func MigrateDB(db *gorm.DB) error {
+
 	if result := db.AutoMigrate(&model.Balance{}); result.Error != nil {
 		return result.Error
 	}

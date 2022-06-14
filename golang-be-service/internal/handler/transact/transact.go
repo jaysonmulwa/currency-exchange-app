@@ -14,19 +14,19 @@ import (
 func Transact (c *fiber.Ctx) error {
 
 	type TransactRequest struct {
-		Username string `json : "username"`
+		UserId int `json : "user_id"`
 		Amount float64 `json : "amount"`
 		Entry string `json : "entry"`
 	}
 
 	var input TransactRequest
 
-	if err := c.BodyParser(input); err != nil {
+	if err := c.BodyParser(&input); err != nil {
 		return err
 	}
 
+	user_id := input.UserId
 	helper := helper.Helper{}
-	user_id, _ := helper.GetIDFromUsername(input.Username)
 	fromCurrency, _ := helper.GetDefaultCurrency(user_id)
 	amount := input.Amount
 	entry := input.Entry
@@ -56,7 +56,6 @@ func Transact (c *fiber.Ctx) error {
 	}
 	_ = helper.RecordTransaction(Entry)
 	
-
 	//Adjust balance
 	balanceModel, err := balance.FetchBalance(user_id)
 	balanceAmount := balanceModel.Amount
@@ -73,9 +72,8 @@ func Transact (c *fiber.Ctx) error {
 		Amount:       newBalanceAmount,
 		Last_updated: time_now,
 	}
-	helper.AdjustBalance(newSenderBalance, user_id)
+	_ = helper.AdjustBalance(newSenderBalance, user_id)
 	
-
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Error occurred", "data": nil})
 	}

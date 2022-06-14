@@ -93,10 +93,12 @@ export default {
   methods: {
     login() {
       const params = {
-        withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
@@ -112,11 +114,9 @@ export default {
         .post(`${BASE_URL}/api/v1/login`, payload)
         .then((response) => {
           console.log(response)
-          if (response.data.success) {
-            //this.$store.commit('setUser', response.data.user)
+          if (response.data) {
             this.$toast.show('Successfully logged in!')
-            localStorage.setItem('token', 'token1234')
-            localStorage.setItem('userId', '1234')
+            localStorage.setItem('user_id', response.data.data.user_id)
             this.$router.push('/home')
           } else {
             this.$toast.show('Invalid username or password!')

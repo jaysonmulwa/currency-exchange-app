@@ -5,8 +5,15 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	db "github.com/jaysonmulwa/golang-be-service/internal/database"
-	"github.com/jaysonmulwa/golang-be-service/internal/model"
 )
+
+type Balance struct {
+	Balance_id   int    `json:"balance_id"`
+	User_id      int    `json:"user_id"`
+	Amount       float64   `json:"amount"`
+	Currency     string `json:"currency"`
+	Last_updated string `json:"last_updated"`
+}
 
 func GetBalance (c *fiber.Ctx) error {
 	user_id := c.Params("user_id")
@@ -20,12 +27,12 @@ func GetBalance (c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Balance fetched", "data": balance})
 }
 
-func FetchBalance(user_id int) (*model.Balance, error) {
+func FetchBalance(user_id int) (Balance, error) {
 	
-	var balance model.Balance
+	balance := Balance{}
 	_db := db.GetConnection().DB
 	if result := _db.Where("user_id = ?", user_id).First(&balance); result.Error != nil {
-		return &balance, result.Error
+		return balance, result.Error
 	}
-	return &balance, nil
+	return balance, nil
 }

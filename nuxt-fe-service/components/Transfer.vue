@@ -97,19 +97,22 @@ export default {
   methods: {
     transfer: function () {
       const params = {
-        withCredentials: true,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': '*'
         },
       }
 
       const payload = {
+        from: localStorage.getItem('user_id'),
         username: this.username,
         amount: this.amount,
       }
 
-      const BASE_URL = 'http://localhost:3000'
+      const BASE_URL = 'http://localhost:3001'
 
       axios
         .create(params)

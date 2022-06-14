@@ -22,7 +22,7 @@ func Transfer (c *fiber.Ctx) error {
 
 	var input TransferRequest
 
-	if err := c.BodyParser(input); err != nil {
+	if err := c.BodyParser(&input); err != nil {
 		return err
 	}
 
