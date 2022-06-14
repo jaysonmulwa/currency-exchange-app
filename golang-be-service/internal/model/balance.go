@@ -4,9 +4,9 @@ import "github.com/jinzhu/gorm"
 
 type Balance struct {
 	gorm.Model
-	balance_id   int    `json:"balance_id"`
-	user_id      int    `json:"user_id"`
-	amount       int    `json:"amount"`
-	currency     string `json:"currency"`
-	last_updated string `json:"last_updated"`
+	Balance_id   int    `json:"balance_id"`
+	User_id      int    `json:"user_id"`
+	Amount       float64   `json:"amount"`
+	Currency     string `json:"currency"`
+	Last_updated string `json:"last_updated"`
 }
